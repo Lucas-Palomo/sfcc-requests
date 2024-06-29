@@ -45,6 +45,7 @@ const APPLICATION_TYPE = "application",
  * @description returns the most commons content-types
  */
 let ContentTypes = {
+    CUSTOM: (type, subType) => new ContentType(type, subType),
     ANY_TYPE: () => new ContentType(WILDCARD, WILDCARD),
     ANY_TEXT_TYPE: () => new ContentType(TEXT_TYPE, WILDCARD),
     ANY_IMAGE_TYPE: () => new ContentType(IMAGE_TYPE, WILDCARD),

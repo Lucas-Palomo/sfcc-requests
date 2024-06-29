@@ -127,7 +127,7 @@ const RequestBuilder = function (method, service, resource) {
      * @name addMultiPart
      * @param {dw.net.HTTPRequestPart} multiPart
      * @public
-     * @description add a multi-part in request body
+     * @description add a multipart in request body
      */
     RequestBuilder.prototype.addMultiPart = function (multiPart) {
         __multiParts__.add(multiPart)
@@ -138,7 +138,7 @@ const RequestBuilder = function (method, service, resource) {
      * @name getMultiParts
      * @return {dw.net.HTTPRequestPart[]}
      * @public
-     * @description get all multi-parts values added in request body
+     * @description get all multiparts values added in request body
      */
     RequestBuilder.prototype.getMultiParts = function () {
         return __multiParts__.toArray()
@@ -153,7 +153,7 @@ const RequestBuilder = function (method, service, resource) {
      */
     RequestBuilder.prototype.setJSON = function (bodyObject) {
         __body__ = JSON.stringify(bodyObject)
-        __headers__.put("Content-Type", ContentTypes.JSON_UTF_8)
+        __headers__.put("Content-Type", ContentTypes.JSON().getValue())
         this.__ContentLength__()
     }
 
@@ -183,7 +183,7 @@ const RequestBuilder = function (method, service, resource) {
 
     /**
      * @name call
-     * @param {{parseResponse?: boolean, sendAsMultiPart?: boolean, timeout?: number, followRedirect?: boolean}} options
+     * @param {{parseResponse?: boolean, sendAsMultiPart?: boolean, timeout?: number, followRedirect?: boolean}|null} options
      * @public
      * @return {{status: number, body: Object|string, headers: Object}}
      * @description Call request, returns the response object
@@ -202,15 +202,15 @@ const RequestBuilder = function (method, service, resource) {
         client.setTimeout(service.getConfiguration().getProfile().getTimeoutMillis())
         client = this.__SetRequestHeaders__(client)
 
-        if (options.followRedirect) {
+        if (options && options.followRedirect) {
             client.setAllowRedirect(true);
         }
 
-        if(options.timeout) {
+        if(options && options.timeout) {
             client.setTimeout(options.timeout);
         }
 
-        options.sendAsMultiPart ? client.sendMultiPart(__multiParts__.toArray()) :  client.send(__body__)
+        options && options.sendAsMultiPart ? client.sendMultiPart(__multiParts__.toArray()) :  client.send(__body__)
 
         const response = !empty(client.getText()) || client.getText() !== null ? client.getText() : client.getErrorText()
 
@@ -221,7 +221,7 @@ const RequestBuilder = function (method, service, resource) {
 
         return {
             status: client.statusCode,
-            body: options.parseResponse ? JSON.parse(response) : response,
+            body: options && options.parseResponse ? JSON.parse(response) : response,
             headers: this.__GetResponseHeaders__(client.getAllResponseHeaders())
         }
     }
@@ -286,7 +286,7 @@ const RequestBuilder = function (method, service, resource) {
 
     /**
      * @name __CheckOptions__
-     * @param {{parseResponse?: boolean, sendAsMultiPart?: boolean, timeout?: number, followRedirect?: boolean}} options
+     * @param {{parseResponse?: boolean, sendAsMultiPart?: boolean, timeout?: number, followRedirect?: boolean}|null} options
      * @private
      * @description Check All accepted params for the RequestBuilder
      */
@@ -300,11 +300,13 @@ const RequestBuilder = function (method, service, resource) {
 
         const message = 'Invalid option type for #rule# value must be a #type#'
 
-        for (var key of Object.keys(options)) {
-            if (optionsRules.containsKey(key)) {
-                var type = optionsRules.get(key);
-                if (typeof(options[key]) !== type) {
-                    throw message.replace('#rule#', key).replace('#type#', type)
+        if (options) {
+            for (var key of Object.keys(options)) {
+                if (optionsRules.containsKey(key)) {
+                    var type = optionsRules.get(key);
+                    if (typeof (options[key]) !== type) {
+                        throw message.replace('#rule#', key).replace('#type#', type)
+                    }
                 }
             }
         }

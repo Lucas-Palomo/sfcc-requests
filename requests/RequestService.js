@@ -1,7 +1,7 @@
 'use strict';
 
 const LocalServiceRegistry = require("dw/svc/LocalServiceRegistry")
-const RequestBuilder = require("./request/RequestBuilder");
+const RequestBuilder = require("./internal/RequestBuilder");
 
 /**
  * @name RequestService
@@ -11,15 +11,26 @@ const RequestBuilder = require("./request/RequestBuilder");
  */
 const RequestService = function (serviceId) {
 
+    /**
+     * @type {dw.svc.Service|null}
+     */
     RequestService.prototype.service = null
-    RequestService.prototype.serviceError = null
-    RequestService.prototype.hasServiceError = false
+
+    /**
+     * @type {Error|null}
+     */
+    RequestService.prototype.error = null
+
+    /**
+     * @type {boolean}
+     */
+    RequestService.prototype.hasError = false
 
     try {
         this.service = LocalServiceRegistry.createService(serviceId, {})
     } catch (err) {
-        this.hasServiceError = true
-        this.serviceError = err
+        this.hasError = true
+        this.error = err
     }
 
     /**
