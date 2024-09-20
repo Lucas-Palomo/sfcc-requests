@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * @author Lucas Palomo devlpalomo@gmail.com
+ */
+
 const LocalServiceRegistry = require("dw/svc/LocalServiceRegistry")
 const RequestBuilder = require("./internal/RequestBuilder");
 

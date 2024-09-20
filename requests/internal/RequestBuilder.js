@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * @author Lucas Palomo devlpalomo@gmail.com
+ */
+
 const HashMap = require('dw/util/HashMap');
 const ArrayList = require('dw/util/ArrayList');
 const HTTPClient = require('dw/net/HTTPClient');

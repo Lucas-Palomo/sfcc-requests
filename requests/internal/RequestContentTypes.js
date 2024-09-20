@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @author Lucas Palomo devlpalomo@gmail.com
+ */
+
+/**
  * @name ContentType
  * @description Constructor to create a instance of a ContentType
  * @param {string} type
