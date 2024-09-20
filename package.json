@@ -1,0 +1,25 @@
+{
+  "name": "sfcc-requests",
+  "version": "1.0.0",
+  "description": "An easy way to make requests in salesforce commerce cloud. Read the README to Install !",
+  "main": "requests/RequestService.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucas-Palomo/sfcc-requests.git"
+  },
+  "keywords": [
+    "sfcc",
+    "requests",
+    "b2c",
+    "demandware",
+    "salesforce",
+    "curl",
+    "unlicense"
+  ],
+  "author": "Lucas Palomo",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/Lucas-Palomo/sfcc-requests/issues"
+  },
+  "homepage": "https://github.com/Lucas-Palomo/sfcc-requests#readme"
+}
